@@ -1,6 +1,4 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Dynamic Calender
 
 ## Available Scripts
 
@@ -13,6 +11,54 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+## Features
+
+This project contains three main screens:
+
+1. **Ad-hoc Data Screen**:
+
+   - Displays ad-hoc data in a table.
+   - Features include sorting, hiding, filtering, different views, and pagination.
+
+2. **Periodic Data Screen**:
+
+   - Displays a complete calendar of the month.
+   - Highlights the current date.
+   - Shows tasks in the respective date cells.
+   - On hover, displays the complete description of the task.
+
+3. **Routine Data Screen**:
+   - Displays routine data in a week calendar format.
+   - Tasks are shown as per their row number in the data.
+   - On hover, a yellow tooltip opens displaying all task information.
+   - Highlights the column of the current date.
+
+## Libraries Used
+
+- **Material-UI**: For various components like Grid, Typography, Buttons, Paper, Tooltip, etc.
+- **date-fns**: For handling different date formats and converting dates to other formats.
+
+## Code Structure
+
+### Inside `src` Folder
+
+- **pages**: Contains the main page files:
+
+  - `Adhoc.js`
+  - `Calendar.js`
+  - `WeekCalendar.js`
+
+- **components**: Contains the code for components used in the pages.
+
+- **utils**: Contains all the utility functions used in the project.
+
+  - `utils.js`: Contains all the utility functions used in components.
+
+- **data**: Contains data files used in the main app:
+  - `AdhocData.js`: Contains the data for the ad-hoc screen, stored and exported as variable `adhocData`.
+  - `PeriodicData.js`: Contains the data for the periodic table screen, stored and exported as variable `periodicData`.
+  - `RoutineData.js`: Contains the data for the routine table screen, stored and exported as variable `routineData`.
 
 ### `npm test`
 

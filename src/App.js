@@ -8,9 +8,9 @@ import { Box } from "@mui/material";
 
 import Calendar from "./pages/Calender";
 import WeekCalendar from "./pages/WeekCalender";
-import { routineData } from "./utils/data/routine";
-import { periodicData } from "./utils/data/Periodic";
-import { adhocData } from "./utils/data/adhoc";
+import { routineData } from "./utils/data/RoutineData";
+import { periodicData } from "./utils/data/PeriodicData";
+import { adhocData } from "./utils/data/AdhocData";
 
 const buttonStyles = {
   backgroundColor: "#D3D3D3",
