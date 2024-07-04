@@ -110,6 +110,7 @@ const App = () => {
           Routine
         </ToggleButton>
       </ToggleButtonGroup>
+
       <Box mt={2}>{renderComponent()}</Box>
     </Box>
   );

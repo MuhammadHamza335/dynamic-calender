@@ -1,48 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, addDays } from "date-fns";
 import ToolTipCustom from "../components/ToolTipCustom";
 
 const today = new Date();
 const todayFormatted = format(today, "yyyy-MM-dd");
 
 // data of days week with date to show in the header
-const daysOfWeek = [
-  { short: "Su", full: "Sunday", date: format(today, "yyyy-MM-dd") },
-  {
-    short: "Mo",
-    full: "Monday",
-    date: format(today.setDate(today.getDate() + 1), "yyyy-MM-dd"),
-  },
-  {
-    short: "Tu",
-    full: "Tuesday",
-    date: format(today.setDate(today.getDate() + 1), "yyyy-MM-dd"),
-  },
-  {
-    short: "We",
-    full: "Wednesday",
-    date: format(today.setDate(today.getDate() + 1), "yyyy-MM-dd"),
-  },
-  {
-    short: "Th",
-    full: "Thursday",
-    date: format(today.setDate(today.getDate() + 1), "yyyy-MM-dd"),
-  },
-  {
-    short: "Fr",
-    full: "Friday",
-    date: format(today.setDate(today.getDate() + 1), "yyyy-MM-dd"),
-  },
-  {
-    short: "Sa",
-    full: "Saturday",
-    date: format(today.setDate(today.getDate() + 1), "yyyy-MM-dd"),
-  },
-];
 
+const daysOfWeek = Array.from({ length: 7 }).map((_, index) => {
+  const date = addDays(today, index);
+  const fullDayName = format(date, "EEEE");
+  return {
+    short:
+      fullDayName.slice(0, 2).charAt(0).toUpperCase() +
+      fullDayName.slice(1, 2).toLowerCase(),
+    full: format(date, "EEEE"), // Full day name (e.g., 'Monday')
+    date: format(date, "yyyy-MM-dd"),
+  };
+});
+
+console.log("Dayyys", daysOfWeek);
 // rendering calender
 const WeekCalendar = ({ events }) => {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   // Determine the maximum number of rows required
   const maxRows = Math.max(...events.map((event) => event.rowNumber));
 
@@ -53,13 +40,13 @@ const WeekCalendar = ({ events }) => {
   }, {});
 
   return (
-    <Box overflowX="auto">
-      <Box minWidth={daysOfWeek.length * 190}>
+    <Box overflowX="auto" width={`${width}px`}>
+      <Box minWidth={"1300px"}>
         <Grid
           container
           spacing={2}
           style={{
-            padding: "50px",
+            paddingBlock: "50px",
             display: "flex",
             justifyContent: "center",
           }}
@@ -69,19 +56,49 @@ const WeekCalendar = ({ events }) => {
               item
               key={day.short}
               style={{
-                width: 150,
+                width: 175,
                 padding: "0px",
                 border:
                   todayFormatted === day.date
                     ? "3px solid blue"
                     : "1px solid black",
+                backgroundColor:
+                  day.short === "Sa" || day.short === "Su"
+                    ? "#D3D3D3"
+                    : "transparent",
               }}
             >
-              <Typography variant="h6" align="center">
-                <strong>{day.full}</strong>
-                <br />
-                {format(parseISO(day.date), "MMM dd")}
-              </Typography>
+              <div
+                style={{
+                  height: todayFormatted === day.date ? "68px" : "70px",
+                }}
+              >
+                <Box display="block" textAlign="center">
+                  <Typography variant="h6">
+                    <strong>{day.full}</strong>
+                  </Typography>
+                </Box>
+                <Box
+                  display="block"
+                  textAlign="center"
+                  style={{
+                    borderTop: "1px solid black",
+                    display: "flex",
+                    flexDirection: "row",
+                    marginTop: todayFormatted === day.date ? "-1.5px" : "0px",
+                    height: "37px",
+                    backgroundColor:
+                      todayFormatted === day.date ? "#4169E1" : "transparent",
+                  }}
+                >
+                  <Typography
+                    variant="p"
+                    color={todayFormatted === day.date ? "white" : "gray"}
+                  >
+                    {format(parseISO(day.date), "dd")}
+                  </Typography>
+                </Box>
+              </div>
               {[...Array(maxRows)].map((_, rowIndex) => {
                 const event = eventsByDay[day.short]?.find(
                   (event) => event.rowNumber - 1 === rowIndex
